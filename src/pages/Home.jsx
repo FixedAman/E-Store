@@ -5,7 +5,8 @@ const Home = () => {
   return (
     <>
       <FlexContainer />
-      <SectionPanel />
+      <h1 className="flex justify-center items-center">Mens T-shirts</h1>
+      <SectionPanel category="mens-shirts" />
     </>
   );
 };

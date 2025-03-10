@@ -5,5 +5,5 @@ const api = axios.create({
 
 export const getData = async (category) => {
   const response = await api.get(`/products/category/${category}`);
-  return response.data.products;
+  return response.data.products
 };
