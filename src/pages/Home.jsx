@@ -1,12 +1,29 @@
 import FlexContainer from "../components/ui/Flexcontainer";
-import SectionPanel from "../components/ui/sectionPanel";
+import {
+  SectionPanel,
+  SectionShoes,
+  SkinCare,
+} from "../components/ui/sectionPanel";
 
 const Home = () => {
   return (
     <>
-      <FlexContainer />
-      <h1 className="flex justify-center items-center">Mens T-shirts</h1>
+     <FlexContainer />
+     <div className="m-12 ">
+      <h1 className="flex justify-center items-center mt-10 underline">
+        Mens T-shirts
+      </h1>
       <SectionPanel category="mens-shirts" />
+      <h1 className="flex justify-center items-center mt-10 underline">
+        Mens Shoes{" "}
+      </h1>
+
+      <SectionShoes category={"mens-shoes"} />
+      <h1 className="flex justify-center items-center mt-10  underline">
+        Mens Shoes{" "}
+      </h1>
+      <SkinCare category={"skin-care"} />
+     </div>
     </>
   );
 };
