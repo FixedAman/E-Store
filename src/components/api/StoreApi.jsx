@@ -5,5 +5,12 @@ const api = axios.create({
 
 export const getData = async (category) => {
   const response = await api.get(`/products/category/${category}`);
-  return response.data.products
+  return response.data.products;
+};
+export const getSearchData = async (data) => {
+  const response = await api.get(
+    `https://dummyjson.com/products/search?q=${data}`
+  );
+
+  return response.data.products.map((product) => product.title);
 };

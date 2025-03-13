@@ -1,6 +1,22 @@
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import { getSearchData } from "../api/StoreApi";
+import SearchResult from "./SearchResults";
 
 const FlexContainer = () => {
+  const [search, setSearch] = useState("");
+
+  const { data, isError, isPending } = useQuery({
+    queryKey: ["search", search],
+    queryFn: () => getSearchData(search),
+    enabled: !!search,
+  });
+
+  const handleChange = (value) => {
+    setSearch(value.toLowerCase());
+  };
+
   return (
     <div className="relative w-full h-140">
       <img
@@ -16,18 +32,31 @@ const FlexContainer = () => {
           Shop Now
         </button>
       </div>
-      <div className="absolute inset-0 flex items-end justify-center mb-12">
+
+      {/* Search Bar */}
+      <div className="absolute inset-0 flex flex-col items-center justify-end mb-12">
         <form
-          action=""
           className="bg-white bg-opacity-80 rounded-sm shadow-lg w-3/4 md:w-1/2 flex"
+          onSubmit={(e) => e.preventDefault()}
         >
           <input
             type="text"
             placeholder="Search..."
             className="p-2 rounded-sm border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-200 w-full"
+            value={search}
+            onChange={(e) => handleChange(e.target.value)}
           />
           <CiSearch className="m-2 mt-3 cursor-pointer text-xl md:text-2xl" />
         </form>
+           
+        {/* Search Results */}
+        <div className="w-3/4 md:w-1/2 mt-2">
+         
+          {isError && (
+            <p className="text-red-500 text-center">Something went wrong!</p>
+          )}
+          {data && <SearchResult result={data} />}
+        </div>
       </div>
     </div>
   );

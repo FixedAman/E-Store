@@ -5,7 +5,7 @@ import Header from "./Header";
 const AppLayout = () => {
   return (
     <>
-      <div>
+      <div className="">
         <Header />
         <Outlet />
         <Footer />

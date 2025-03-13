@@ -6,9 +6,10 @@ import {
   PiInfoLight,
 } from "react-icons/pi";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const [isLogin, setLogin] = useState(false);
+  const { user } = useSelector((state) => state.auth);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -23,7 +24,9 @@ const Navbar = () => {
             <NavLink
               to="/about"
               className={({ isActive }) =>
-                isActive ? "text-blue-400" : "text-white flex items-center space-x-2"
+                isActive
+                  ? "text-blue-400"
+                  : "text-white flex items-center space-x-2"
               }
             >
               <PiInfoLight />
@@ -34,7 +37,9 @@ const Navbar = () => {
             <NavLink
               to="/wishlist"
               className={({ isActive }) =>
-                isActive ? "text-blue-400" : "text-white flex items-center space-x-2"
+                isActive
+                  ? "text-blue-400"
+                  : "text-white flex items-center space-x-2"
               }
             >
               <PiShoppingCartLight />
@@ -45,7 +50,9 @@ const Navbar = () => {
             <NavLink
               to="/shop"
               className={({ isActive }) =>
-                isActive ? "text-blue-400" : "text-white flex items-center space-x-2"
+                isActive
+                  ? "text-blue-400"
+                  : "text-white flex items-center space-x-2"
               }
             >
               <PiStorefrontLight />
@@ -53,11 +60,13 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            {isLogin ? (
+            {user ? (
               <NavLink
                 to="/login"
                 className={({ isActive }) =>
-                  isActive ? "text-blue-400" : "text-white flex items-center space-x-2"
+                  isActive
+                    ? "text-blue-400"
+                    : "text-white flex items-center space-x-2"
                 }
               >
                 <PiUserCircleLight />
@@ -67,11 +76,13 @@ const Navbar = () => {
               <NavLink
                 to="/register"
                 className={({ isActive }) =>
-                  isActive ? "text-blue-400" : "text-white flex items-center space-x-2"
+                  isActive
+                    ? "text-blue-400"
+                    : "text-white flex items-center space-x-2"
                 }
               >
                 <PiUserCircleLight />
-                <span>Log-in</span>
+                <span>Register</span>
               </NavLink>
             )}
           </li>
@@ -87,13 +98,15 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`${isOpen ? "block" : "hidden"} md:hidden text-lg`}> 
+      <div className={`${isOpen ? "block" : "hidden"} md:hidden text-lg`}>
         <ul className="flex flex-col space-y-4 items-center">
           <li>
             <NavLink
               to="/about"
               className={({ isActive }) =>
-                isActive ? "text-blue-400" : "text-white flex items-center space-x-2"
+                isActive
+                  ? "text-blue-400"
+                  : "text-white flex items-center space-x-2"
               }
             >
               <PiInfoLight />
@@ -104,7 +117,9 @@ const Navbar = () => {
             <NavLink
               to="/wishlist"
               className={({ isActive }) =>
-                isActive ? "text-blue-400" : "text-white flex items-center space-x-2"
+                isActive
+                  ? "text-blue-400"
+                  : "text-white flex items-center space-x-2"
               }
             >
               <PiShoppingCartLight />
@@ -115,7 +130,9 @@ const Navbar = () => {
             <NavLink
               to="/shop"
               className={({ isActive }) =>
-                isActive ? "text-blue-400" : "text-white flex items-center space-x-2"
+                isActive
+                  ? "text-blue-400"
+                  : "text-white flex items-center space-x-2"
               }
             >
               <PiStorefrontLight />
@@ -123,11 +140,13 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            {isLogin ? (
+            {user ? (
               <NavLink
                 to="/login"
                 className={({ isActive }) =>
-                  isActive ? "text-blue-400" : "text-white flex items-center space-x-2"
+                  isActive
+                    ? "text-blue-400"
+                    : "text-white flex items-center space-x-2"
                 }
               >
                 <PiUserCircleLight />
@@ -137,11 +156,14 @@ const Navbar = () => {
               <NavLink
                 to="/register"
                 className={({ isActive }) =>
-                  isActive ? "text-blue-400" : "text-white flex items-center space-x-2"
+                  isActive
+                    ? "text-blue-400"
+                    : "text-white flex items-center space-x-2"
                 }
               >
+                w
                 <PiUserCircleLight />
-                <span>Log-in</span>
+                <span>Register</span>
               </NavLink>
             )}
           </li>
