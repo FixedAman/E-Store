@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   PiShoppingCartLight,
   PiStorefrontLight,
@@ -6,11 +6,19 @@ import {
   PiInfoLight,
 } from "react-icons/pi";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../store/features/auth/authSlice";
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleClick = async () => {
+    const result = await dispatch(logout());
+    if (logout.fulfilled.match(result)) {
+      window.location.replace('/login')
+    }
+  };
 
   return (
     <nav className="bg-transparent absolute w-full top-0 left-0 z-10">
@@ -70,7 +78,7 @@ const Navbar = () => {
                 }
               >
                 <PiUserCircleLight />
-                <span>Sign-out</span>
+                <span>Logout</span>
               </NavLink>
             ) : (
               <NavLink
@@ -141,17 +149,9 @@ const Navbar = () => {
           </li>
           <li>
             {user ? (
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-blue-400"
-                    : "text-white flex items-center space-x-2"
-                }
-              >
-                <PiUserCircleLight />
+              <button onClick={handleClick}>
                 <span>Sign-out</span>
-              </NavLink>
+              </button>
             ) : (
               <NavLink
                 to="/register"

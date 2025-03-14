@@ -51,7 +51,7 @@ export const SectionPanel = ({ category }) => {
       },
     ],
   };
-  console.log(products);
+
 
   return (
     <div className="w-full mt-8 overflow-hidden ">

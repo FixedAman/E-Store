@@ -1,4 +1,8 @@
+import { logout } from "../store/features/auth/authSlice";
 const SignOut = () => {
-  return <></>;
+  
+  return <>
+     
+  </>;
 };
 export default SignOut;

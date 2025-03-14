@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import FlexContainer from "../components/ui/Flexcontainer";
 import {
   SectionPanel,
@@ -6,6 +7,9 @@ import {
 } from "../components/ui/sectionPanel";
 
 const Home = () => {
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
+
   return (
     <>
       <FlexContainer />

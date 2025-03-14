@@ -1,7 +1,11 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "../store/features/auth/authSlice";
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { error, loading } = useSelector((state) => state.auth);
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -13,9 +17,12 @@ const Register = () => {
       [name]: value,
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    const result = await dispatch(signUp(data));
+    if (signUp.fulfilled.match(result)) {
+      navigate("/");
+    }
     setData({
       email: "",
       password: "",
@@ -70,7 +77,7 @@ const Register = () => {
           </button>
         </form>
         <p className="text-center text-gray-600 mt-4">
-          Already have an account?{" "}
+          Already have an account?
           <NavLink to="/login" className="text-blue-700">
             Login
           </NavLink>
