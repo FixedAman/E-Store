@@ -13,12 +13,14 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleClick = async () => {
     const result = await dispatch(logout());
     if (logout.fulfilled.match(result)) {
-      window.location.replace('/login')
+      window.location.replace("/login");
     }
   };
+  
 
   return (
     <nav className="bg-transparent absolute w-full top-0 left-0 z-10">
@@ -77,7 +79,15 @@ const Navbar = () => {
                     : "text-white flex items-center space-x-2"
                 }
               >
-                <PiUserCircleLight />
+                {user && user?.photo ? (
+                  <img
+                    src={user?.photo}
+                    alt="Profile"
+                    className="w-10 h-10 rounded-full border border-amber-600"
+                  />
+                ) : (
+                  <PiUserCircleLight />
+                )}
                 <span>Logout</span>
               </NavLink>
             ) : (

@@ -5,9 +5,9 @@ const SearchResult = ({ result }) => {
 
   return (
     <div className="absolute w-3/4 md:w-1/2 bg-white text-black rounded-lg shadow-lg mt-1 z-10">
-      {result.map((product) => (
+      {result.map((product , index) => (
         <div
-          key={product.id}
+          key={index}
           className="p-4  last:border-b-0 hover:bg-blue-50 transition-colors duration-200 flex items-center gap-4"
         >
           <div>

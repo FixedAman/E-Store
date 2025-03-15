@@ -8,12 +8,12 @@ import {
 
 const Home = () => {
   const { user } = useSelector((state) => state.auth);
-  console.log(user);
 
   return (
     <>
       <FlexContainer />
       <div className="m-12 ">
+        <h1>Hi , {(user && user.displayName) || "Customer"} </h1>
         <h1 className="flex justify-center items-center mt-10 underline">
           Mens T-shirts
         </h1>

@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../store/features/auth/authSlice";
+import { login, signWithGoogle } from "../store/features/auth/authSlice";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { error, loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const handleClick = async () => {
+    const result = await dispatch(signWithGoogle());
+    if (signWithGoogle.fulfilled.match(result)) {
+      navigate("/");
+    }
+  };
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -22,7 +28,10 @@ const Login = () => {
     e.preventDefault();
     const result = await dispatch(login(data));
     if (login.fulfilled.match(result)) {
+      // window.location.reload();
       navigate("/");
+    } else {
+      console.log(result.error.message);
     }
   };
   return (
@@ -74,7 +83,7 @@ const Login = () => {
             >
               {loading ? (
                 <div
-                  class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+                  className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
                   role="status"
                 >
                   <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
@@ -85,11 +94,23 @@ const Login = () => {
                 "Login"
               )}
             </button>
+            <button
+              onClick={handleClick}
+              className="flex items-center justify-center w-full bg-white border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-100 transition duration-300 shadow-md"
+              disabled={loading}
+            >
+              <img
+                src="https://techdocs.akamai.com/identity-cloud/img/social-login/identity-providers/iconfinder-new-google-favicon-682665.png"
+                alt="Google Logo"
+                className="w-5 h-5 mr-3"
+              />
+              {loading ? "Signing in..." : "Sign in with Google"}
+            </button>
           </form>
           {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
           <p className="text-center text-gray-600 mt-4">
             Don't have an account?
-            <NavLink to="/register" className="text-blue-700">
+            <NavLink to="/register" className="text-blue-700 ml-1">
               Register
             </NavLink>
           </p>

@@ -8,6 +8,11 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "../../../firebase/firebase";
+//  checking data the in localStorage
+const laodUserFromStorage = () => {
+  const userData = localStorage.getItem("user");
+  return userData ? JSON.parse(userData) : null;
+};
 
 export const signUp = createAsyncThunk(
   "auth/signUp",
@@ -15,6 +20,7 @@ export const signUp = createAsyncThunk(
     try {
       const userData = await createUserWithEmailAndPassword(
         auth,
+        username,
         email,
         password
       );
@@ -31,7 +37,14 @@ export const signWithGoogle = createAsyncThunk(
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      return result.user;
+      const user = result.user;
+      const userData = {
+        email: user.email,
+        displayName: user.displayName,
+        photo: user.photoURL,
+      };
+      localStorage.setItem("user", JSON.stringify(userData));
+      return userData;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -46,6 +59,7 @@ export const login = createAsyncThunk(
         email,
         password
       );
+
       return userCredentials.user;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -55,6 +69,7 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     await signOut(auth);
+    localStorage.removeItem("user");
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
   }
@@ -71,7 +86,7 @@ export const useAuth = () => (dispatch) => {
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    user: laodUserFromStorage(),
     loading: false,
     error: null,
   },
@@ -83,6 +98,17 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(signWithGoogle.rejected, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(signWithGoogle.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(signWithGoogle.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
       .addCase(signUp.pending, (state) => {
         state.loading = true;
       })
@@ -94,6 +120,7 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload;
+        state.loading = false;
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
