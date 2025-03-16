@@ -20,7 +20,6 @@ export const signUp = createAsyncThunk(
     try {
       const userData = await createUserWithEmailAndPassword(
         auth,
-        username,
         email,
         password
       );
@@ -41,7 +40,7 @@ export const signWithGoogle = createAsyncThunk(
       const userData = {
         email: user.email,
         displayName: user.displayName,
-        photo: user.photoURL,
+        photoURL: user.photoURL,
       };
       localStorage.setItem("user", JSON.stringify(userData));
       return userData;
@@ -100,7 +99,7 @@ const authSlice = createSlice({
     builder
       .addCase(signWithGoogle.rejected, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.error = action.payload;
       })
       .addCase(signWithGoogle.pending, (state) => {
         state.loading = true;

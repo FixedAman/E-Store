@@ -79,9 +79,9 @@ const Navbar = () => {
                     : "text-white flex items-center space-x-2"
                 }
               >
-                {user && user?.photo ? (
+                {user && user?.photoURL ? (
                   <img
-                    src={user?.photo}
+                    src={user?.photoURL}
                     alt="Profile"
                     className="w-10 h-10 rounded-full border border-amber-600"
                   />

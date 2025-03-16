@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, signWithGoogle } from "../store/features/auth/authSlice";
+import {
+  login,
+  setUser,
+  signWithGoogle,
+} from "../store/features/auth/authSlice";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { error, loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // get item from local storage
+  useEffect(() => {
+    const storedData = localStorage.getItem("user");
+    if (storedData) {
+      dispatch(setUser(storedData));
+    }
+  }, [dispatch]);
   const handleClick = async () => {
     const result = await dispatch(signWithGoogle());
     if (signWithGoogle.fulfilled.match(result)) {
@@ -86,7 +97,7 @@ const Login = () => {
                   className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
                   role="status"
                 >
-                  <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                  <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
                     Loading...
                   </span>
                 </div>
