@@ -20,13 +20,14 @@ const Navbar = () => {
       window.location.replace("/login");
     }
   };
-  
 
   return (
-    <nav className="bg-transparent absolute w-full top-0 left-0 z-10">
+    <nav className="bg-black  w-full top-0 left-0 z-10 sticky">
       <div className="container mx-auto flex items-center justify-between p-4">
         {/* Logo */}
-        <h1 className="text-white text-3xl font-bold">My Store</h1>
+        <NavLink to="/">
+          <h1 className="text-white text-3xl font-bold">My Store</h1>
+        </NavLink>
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-12 text-lg">
@@ -66,7 +67,7 @@ const Navbar = () => {
               }
             >
               <PiStorefrontLight />
-              <span>Shop</span>
+              <span>Cart</span>
             </NavLink>
           </li>
           <li>

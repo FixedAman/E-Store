@@ -14,12 +14,16 @@ const Home = () => {
       <FlexContainer />
       <div className="m-12 ">
         <h1>Hi , {(user && user.displayName) || "Customer"} </h1>
-        <h1 className="flex justify-center items-center mt-10 underline">
-          Mens T-shirts
+
+        <h1 className="flex justify-center items-center mt-10 underline  ">
+          <button className="px-6 py-2  border-black border  hover:bg-black  hover:text-white    ">
+            Shop
+          </button>
         </h1>
+
         <SectionPanel category="mens-shirts" />
         <h1 className="flex justify-center items-center mt-10 underline">
-          Mens Shoes{" "}
+          Mens Shoes
         </h1>
 
         <SectionShoes category={"mens-shoes"} />

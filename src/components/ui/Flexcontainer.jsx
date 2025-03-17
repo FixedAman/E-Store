@@ -18,45 +18,59 @@ const FlexContainer = () => {
   };
 
   return (
-    <div className="relative w-full h-140">
-      <img
-        src="/images/Flex.jpg"
-        alt="Store Background"
-        className="w-full h-full object-cover"
-      />
-      <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl md:text-6xl text-white mt-2 underline underline-offset-8 text-center">
-        Product For The Soul
-      </h1>
-      <div className="button-container absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-2xl md:text-4xl rounded-xl mt-24">
-        <button className="text-white border-2 border-white px-4 md:px-6 py-2 rounded-xl bg-transparent hover:bg-white hover:text-black transition-colors duration-300">
-          Shop Now
-        </button>
+    <div className="relative w-full h-140 flex flex-col md:flex-row items-center">
+      {/* Left Side: Image */}
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 text-center md:text-left">
+        <h1 className="text-3xl md:text-5xl font-bold text-gray-800 underline text-wrap">
+          Hurry Start Shopping Now!
+        </h1>
+        <p className="text-gray-600 text-lg mt-2 underline">
+          Find the best deals and exclusive products.
+        </p>
+        <p className="text-gray-600 text-lg mt-2 underline">
+        guilt free shoping
+        </p>
+
+        <div className="mt-6">
+          <button className="text-white border-2 border-black px-6 py-2 rounded-lg bg-black hover:bg-white hover:text-black transition-colors duration-300">
+            Shop Now
+          </button>
+        </div>
+
+        {/* Search Bar */}
+        <div className="w-full mt-8">
+          <form
+            className="bg-white bg-opacity-80 rounded-md shadow-lg w-full flex items-center"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <input
+              type="text"
+              placeholder="Search..."
+              className="p-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              value={search}
+              onChange={(e) => handleChange(e.target.value)}
+            />
+            <CiSearch className="m-3 cursor-pointer text-xl md:text-2xl" />
+          </form>
+
+          {/* Search Results */}
+          <div className="w-full mt-2">
+            {isError && (
+              <p className="text-red-500 text-center">Something went wrong!</p>
+            )}
+            {data && <SearchResult result={data} />}
+          </div>
+        </div>
       </div>
 
-      {/* Search Bar */}
-      <div className="absolute inset-0 flex flex-col items-center justify-end mb-12">
-        <form
-          className="bg-white bg-opacity-80 rounded-sm shadow-lg w-3/4 md:w-1/2 flex"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <input
-            type="text"
-            placeholder="Search..."
-            className="p-2 rounded-sm border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-200 w-full"
-            value={search}
-            onChange={(e) => handleChange(e.target.value)}
-          />
-          <CiSearch className="m-2 mt-3 cursor-pointer text-xl md:text-2xl" />
-        </form>
-           
-        {/* Search Results */}
-        <div className="w-3/4 md:w-1/2 mt-2">
-         
-          {isError && (
-            <p className="text-red-500 text-center">Something went wrong!</p>
-          )}
-          {data && <SearchResult result={data} />}
-        </div>
+      {/* Right Side: Text and Search */}
+
+      <div className="w-full md:w-1/2 h-full">
+        <img
+          src="/images/flex.png"
+          alt="Store Background"
+          className="w-full h-full object-cover"
+        />
       </div>
     </div>
   );
