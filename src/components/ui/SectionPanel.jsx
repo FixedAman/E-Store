@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { MdOutlineShoppingBag } from "react-icons/md";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 // mens
 export const SectionPanel = ({ category }) => {
   const {
@@ -51,7 +52,6 @@ export const SectionPanel = ({ category }) => {
       },
     ],
   };
-
 
   return (
     <div className="w-full mt-8 overflow-hidden ">
@@ -137,8 +137,8 @@ export const SectionShoes = ({ category }) => {
               <p className="text-lg font-semibold mt-2">{product.title}</p>
               <h1 className="text-gray-500">{product.brand}</h1>
               <div className="flex justify-end sm:justify-center mt-4">
-              <MdOutlineShoppingBag className=" text-4xl text-zinc-800 hover:bg-black hover:text-white p-2 rounded-lg transition duration-300 cursor-pointer" />
-            </div>
+                <MdOutlineShoppingBag className=" text-4xl text-zinc-800 hover:bg-black hover:text-white p-2 rounded-lg transition duration-300 cursor-pointer" />
+              </div>
             </div>
           ))}
         </Slider>
@@ -187,7 +187,8 @@ export const SkinCare = ({ category }) => {
       },
     ],
   };
-
+  const isWishlisted = true;
+  const handleClick = () => {};
   return (
     <>
       <div className="w-full mt-8 overflow-hidden">
@@ -205,8 +206,19 @@ export const SkinCare = ({ category }) => {
               <p className="text-lg font-semibold mt-2">{product.title}</p>
               <h1 className="text-gray-500">{product.brand}</h1>
               <div className="flex justify-end sm:justify-center mt-4">
-              <MdOutlineShoppingBag className=" text-4xl text-zinc-800 hover:bg-black hover:text-white p-2 rounded-lg transition duration-300 cursor-pointer" />
-            </div>
+                <MdOutlineShoppingBag className=" text-4xl text-zinc-800 hover:bg-black hover:text-white p-2 rounded-lg transition duration-300 cursor-pointer" />
+                <button
+                className="absolute top-3 right-3 text-xl text-red-500 hover:scale-125 transition-transform duration-200"
+                onClick={handleClick}
+              >
+                {isWishlisted ? (
+                  <FaHeart className="animate-pulse" />
+                ) : (
+                  <FaRegHeart />
+                )}
+              </button>
+              </div>
+              
             </div>
           ))}
         </Slider>

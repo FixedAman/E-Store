@@ -7,6 +7,7 @@ import About from "./pages/About.jsx";
 import Shop from "./pages/Shop.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import CategoryPage from "./components/ui/CategoryPage.jsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -38,6 +39,7 @@ const App = () => {
           path: "/register",
           element: <Register />,
         },
+        { path: "/category/:slug", element: <CategoryPage /> },
       ],
       errorElement: <Error />,
     },

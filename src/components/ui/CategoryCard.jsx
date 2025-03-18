@@ -1,0 +1,55 @@
+import { useState } from "react";
+import { FaHeart, FaRegHeart, FaShoppingCart } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { addToWishlist } from "../../store/features/wishlist/wishListSlice";
+
+const CategoryCard = ({ data }) => {
+  const wishlist = useSelector((state) => state.wishlist.items);
+  const isWishlisted = wishlist.some((item) => item.id === data.id);
+  const dispatch = useDispatch();
+  const handleClick = () => {
+    dispatch(addToWishlist(data));
+  };
+  return (
+    <div className="bg-white/10 backdrop-blur-md shadow-xl rounded-xl overflow-hidden p-5 flex flex-col items-center border border-gray-200 transition-transform transform    ">
+      {/* Product Image */}
+      <div className="relative w-full h-56 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
+        <img
+          src={data.images?.[0] || "https://via.placeholder.com/150"}
+          alt={data.title}
+          className="object-cover h-full w-full rounded-lg hover:scale-110 transition-transform duration-300"
+        />
+        {/* Wishlist Button */}
+        <button
+          className="absolute top-3 right-3 text-xl text-red-500 hover:scale-125 transition-transform duration-200"
+          onClick={handleClick}
+        >
+          {isWishlisted ? (
+            <FaHeart className="animate-pulse" />
+          ) : (
+            <FaRegHeart />
+          )}
+        </button>
+      </div>
+
+      {/* Product Info */}
+      <div className="text-center mt-4">
+        <h3 className="text-lg font-semibold text-gray-900">{data.title}</h3>
+        <p className="text-gray-500 text-sm mt-1 capitalize">{data.category}</p>
+        <p className="text-2xl font-bold text-gray-800 mt-2"> ${data.price}</p>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="mt-5 flex gap-4 w-full">
+        <button className="w-1/2 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-lg hover:from-indigo-600 hover:to-blue-500 transition">
+          <FaShoppingCart /> Add to Cart
+        </button>
+        <button className="w-1/2 bg-black text-white py-2 rounded-lg hover:bg-gray-900 transition">
+          Buy Now
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default CategoryCard;

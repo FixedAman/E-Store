@@ -5,6 +5,8 @@ import {
   SectionShoes,
   SkinCare,
 } from "../components/ui/sectionPanel";
+import CategoryList from "../components/ui/CategoryList";
+
 
 const Home = () => {
   const { user } = useSelector((state) => state.auth);
@@ -25,12 +27,9 @@ const Home = () => {
         <h1 className="flex justify-center items-center mt-10 underline">
           Mens Shoes
         </h1>
-
-        <SectionShoes category={"mens-shoes"} />
-        <h1 className="flex justify-center items-center mt-10  underline">
-          Mens Shoes{" "}
-        </h1>
-        <SkinCare category={"skin-care"} />
+      
+        <SectionShoes category={"skin-care"} />
+        <CategoryList/>
       </div>
     </>
   );
