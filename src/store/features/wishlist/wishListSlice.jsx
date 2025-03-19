@@ -16,6 +16,7 @@ const wishlistSlice = createSlice({
         state.items.splice(itemsExistIndex, 1);
       } else {
         state.items.push(action.payload);
+        
       }
     },
   },

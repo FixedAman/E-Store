@@ -28,7 +28,7 @@ const Home = () => {
           Mens Shoes
         </h1>
       
-        <SectionShoes category={"skin-care"} />
+        <SectionShoes category={"mens-shoes"} />
         <CategoryList/>
       </div>
     </>

@@ -187,15 +187,14 @@ export const SkinCare = ({ category }) => {
       },
     ],
   };
-  const isWishlisted = true;
-  const handleClick = () => {};
+
   return (
     <>
       <div className="w-full mt-8 overflow-hidden">
         <Slider {...settings}>
           {skin.map((product) => (
             <div
-              className="bg-zinc-100 shadow-lg rounded-lg p-4 w-60 text-center transform hover:scale-105 transition duration-300 "
+              className="bg-zinc-100 shadow-lg rounded-lg p-4 w-60 text-center transform hover:scale-105 transition duration-300  "
               key={product.id}
             >
               <img
@@ -207,18 +206,7 @@ export const SkinCare = ({ category }) => {
               <h1 className="text-gray-500">{product.brand}</h1>
               <div className="flex justify-end sm:justify-center mt-4">
                 <MdOutlineShoppingBag className=" text-4xl text-zinc-800 hover:bg-black hover:text-white p-2 rounded-lg transition duration-300 cursor-pointer" />
-                <button
-                className="absolute top-3 right-3 text-xl text-red-500 hover:scale-125 transition-transform duration-200"
-                onClick={handleClick}
-              >
-                {isWishlisted ? (
-                  <FaHeart className="animate-pulse" />
-                ) : (
-                  <FaRegHeart />
-                )}
-              </button>
               </div>
-              
             </div>
           ))}
         </Slider>
