@@ -1,14 +1,25 @@
 import { useState } from "react";
 import { FaHeart, FaRegHeart, FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { addToWishlist } from "../../store/features/wishlist/wishListSlice";
+import {
+  addToWishlist,
+  saveWishlistFromFireBase,
+} from "../../store/features/wishlist/wishListSlice";
+import { useNavigate } from "react-router-dom";
 
 const CategoryCard = ({ data }) => {
+  const navigate = useNavigate();
   const wishlist = useSelector((state) => state.wishlist.items);
   const isWishlisted = wishlist.some((item) => item.id === data.id);
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const handleClick = () => {
-    dispatch(addToWishlist(data));
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    dispatch(addToWishlist({ userId, item }));
+    dispatch(saveWishlistFromFireBase({ userId, wishlist }));
   };
   return (
     <div className="bg-white/10 backdrop-blur-md shadow-xl rounded-xl overflow-hidden p-5 flex flex-col items-center border border-gray-200 transition-transform transform    ">
