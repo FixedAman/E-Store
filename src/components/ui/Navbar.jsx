@@ -20,6 +20,7 @@ const Navbar = () => {
       window.location.replace("/login");
     }
   };
+  const item = useSelector((state) => state.wishlist.items.length);
 
   return (
     <nav className="bg-black  w-full top-0 left-0 z-10 sticky">
@@ -36,7 +37,7 @@ const Navbar = () => {
               to="/about"
               className={({ isActive }) =>
                 isActive
-                  ? "text-blue-400"
+                  ? "text-blue-400 flex items-center space-x-2"
                   : "text-white flex items-center space-x-2"
               }
             >
@@ -49,12 +50,17 @@ const Navbar = () => {
               to="/wishlist"
               className={({ isActive }) =>
                 isActive
-                  ? "text-blue-400"
+                  ? "text-blue-400 flex items-center space-x-2"
                   : "text-white flex items-center space-x-2"
               }
             >
               <PiShoppingCartLight />
-              <span>Wishlist</span>
+              <span className="flex items-center gap-2 text-lg font-semibold">
+                Wishlist
+                <div className="bg-red-500 w-6 h-6 flex items-center justify-center rounded-xl text-white text-sm font-bold">
+                  {item}
+                </div>
+              </span>
             </NavLink>
           </li>
           <li>
@@ -62,7 +68,7 @@ const Navbar = () => {
               to="/shop"
               className={({ isActive }) =>
                 isActive
-                  ? "text-blue-400"
+                  ? "text-blue-400 flex items-center space-x-2"
                   : "text-white flex items-center space-x-2"
               }
             >
@@ -76,7 +82,7 @@ const Navbar = () => {
                 to="/login"
                 className={({ isActive }) =>
                   isActive
-                    ? "text-blue-400"
+                    ? "text-blue-400 flex items-center space-x-2"
                     : "text-white flex items-center space-x-2"
                 }
               >
@@ -96,7 +102,7 @@ const Navbar = () => {
                 to="/register"
                 className={({ isActive }) =>
                   isActive
-                    ? "text-blue-400"
+                    ? "text-blue-400 flex items-center space-x-2"
                     : "text-white flex items-center space-x-2"
                 }
               >
@@ -124,7 +130,7 @@ const Navbar = () => {
               to="/about"
               className={({ isActive }) =>
                 isActive
-                  ? "text-blue-400"
+                  ? "text-blue-400 flex items-center space-x-2"
                   : "text-white flex items-center space-x-2"
               }
             >
@@ -137,7 +143,7 @@ const Navbar = () => {
               to="/wishlist"
               className={({ isActive }) =>
                 isActive
-                  ? "text-blue-400"
+                  ? "text-blue-400 flex items-center space-x-2"
                   : "text-white flex items-center space-x-2"
               }
             >
@@ -150,7 +156,7 @@ const Navbar = () => {
               to="/shop"
               className={({ isActive }) =>
                 isActive
-                  ? "text-blue-400"
+                  ? "text-blue-400 flex items-center space-x-2"
                   : "text-white flex items-center space-x-2"
               }
             >
@@ -168,7 +174,7 @@ const Navbar = () => {
                 to="/register"
                 className={({ isActive }) =>
                   isActive
-                    ? "text-blue-400"
+                    ? "text-blue-400 flex items-center space-x-2"
                     : "text-white flex items-center space-x-2"
                 }
               >
