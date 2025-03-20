@@ -83,7 +83,7 @@ const Navbar = () => {
                 {user && user?.photoURL ? (
                   <img
                     src={user?.photoURL}
-                    alt="Profile"
+                    alt=""
                     className="w-10 h-10 rounded-full border border-amber-600"
                   />
                 ) : (

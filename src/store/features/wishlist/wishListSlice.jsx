@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { doc, getDoc } from "firebase/firestore";
 import { setDoc, updateDoc } from "firebase/firestore";
+import { db } from "../../../firebase/firebase";
 
 const initialState = {
   items: [],
@@ -19,7 +20,7 @@ export const loadWishlistFromFireBase = createAsyncThunk(
       ); /* i pass on the user reference */
       const snapingWishlist = await getDoc(userRef);
       if (snapingWishlist.exists()) {
-        return snapingWishlist.data().items;
+        return snapingWishlist.data().items || [];
       }
       return [];
     } catch (error) {
@@ -32,8 +33,13 @@ export const saveWishlistFromFireBase = createAsyncThunk(
   async ({ userId, wishlist }, thunkApi) => {
     if (!userId) return;
     try {
+      const formattedWishlist = wishlist.map((entry) => entry.item || entry);
       const userRef = doc(db, "wishlist", userId);
-      await setDoc(userRef, { items: wishlist });
+      await setDoc(
+        userRef,
+        { items: formattedWishlist || [] },
+        { merge: true }
+      );
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -45,16 +51,13 @@ const wishlistSlice = createSlice({
   initialState,
   reducers: {
     addToWishlist: (state, action) => {
-      const { userId, item } = action.payload;
-      const itemsExistIndex = state.items.findIndex(
-        (item) => item.id === action.payload.id
-      );
+      const { item } = action.payload;
+      const itemsExistIndex = state.items.findIndex((i) => i.id === item.id);
       if (itemsExistIndex >= 0) {
         state.items.splice(itemsExistIndex, 1);
       } else {
         state.items.push(action.payload);
       }
-    
     },
     setWishlist: (state, action) => {
       state.items = action.payload;
@@ -74,7 +77,6 @@ const wishlistSlice = createSlice({
       })
       .addCase(saveWishlistFromFireBase.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
       });
   },
 });

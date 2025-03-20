@@ -38,6 +38,7 @@ export const signWithGoogle = createAsyncThunk(
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       const userData = {
+        uid: user.uid,
         email: user.email,
         displayName: user.displayName,
         photoURL: user.photoURL,
@@ -73,15 +74,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
-export const useAuth = () => (dispatch) => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      dispatch(setUser(user)); // user  is  loged in
-    } else {
-      dispatch(setUser(null));
-    }
-  });
-};
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {

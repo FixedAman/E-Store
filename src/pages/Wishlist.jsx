@@ -1,8 +1,20 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CategoryCard from "../components/ui/CategoryCard";
+import { useEffect } from "react";
+import { loadWishlistFromFireBase } from "../store/features/wishlist/wishListSlice";
 
 const Wishlist = () => {
+  const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist.items);
+  const user = useSelector((state) => state.auth.user);
+  useEffect(() => {
+    if (user) {
+      dispatch(loadWishlistFromFireBase(user.uid));
+    }
+  }, [user, dispatch]);
+  if (!user) {
+    return <p>Log in then see ur wishlist </p>;
+  }
   return (
     <>
       <h1>Wishlist</h1>

@@ -6,21 +6,38 @@ import {
   saveWishlistFromFireBase,
 } from "../../store/features/wishlist/wishListSlice";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase/firebase";
 
 const CategoryCard = ({ data }) => {
   const navigate = useNavigate();
-  const wishlist = useSelector((state) => state.wishlist.items);
+  const wishlist = useSelector((state) => state.wishlist.items || []);
   const isWishlisted = wishlist.some((item) => item.id === data.id);
   const user = useSelector((state) => state.auth.user);
+
   const dispatch = useDispatch();
   const handleClick = () => {
     if (!user) {
       navigate("/login");
       return;
     }
-    dispatch(addToWishlist({ userId, item }));
-    dispatch(saveWishlistFromFireBase({ userId, wishlist }));
+    const userId = user.uid;
+    const item = { ...data };
+    const isWishlisted = wishlist.some(
+      (wishlistitem) => wishlistitem.id === item.id
+    );
+    let updatedWishlist;
+    if (isWishlisted) {
+      updatedWishlist = wishlist.filter(
+        (wishlisted) => wishlisted.id !== item.id
+      );
+    } else {
+      updatedWishlist = [...wishlist, item];
+    }
+    dispatch(addToWishlist({ item }));
+    dispatch(saveWishlistFromFireBase({ userId, wishlist: updatedWishlist }));
   };
+
+
   return (
     <div className="bg-white/10 backdrop-blur-md shadow-xl rounded-xl overflow-hidden p-5 flex flex-col items-center border border-gray-200 transition-transform transform    ">
       {/* Product Image */}
