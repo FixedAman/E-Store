@@ -8,6 +8,7 @@ import {
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/features/auth/authSlice";
+
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const [isOpen, setIsOpen] = useState(false);
@@ -20,10 +21,11 @@ const Navbar = () => {
       window.location.replace("/login");
     }
   };
-  const item = useSelector((state) => state.wishlist.items.length);
+
+  const wishlistCount = useSelector((state) => state.wishlist.items.length);
 
   return (
-    <nav className="bg-black  w-full top-0 left-0 z-10 sticky">
+    <nav className="bg-black w-full top-0 left-0 z-10 sticky">
       <div className="container mx-auto flex items-center justify-between p-4">
         {/* Logo */}
         <NavLink to="/">
@@ -58,7 +60,7 @@ const Navbar = () => {
               <span className="flex items-center gap-2 text-lg font-semibold">
                 Wishlist
                 <div className="bg-red-500 w-6 h-6 flex items-center justify-center rounded-xl text-white text-sm font-bold">
-                  {item}
+                  {wishlistCount}
                 </div>
               </span>
             </NavLink>
@@ -78,17 +80,13 @@ const Navbar = () => {
           </li>
           <li>
             {user ? (
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-blue-400 flex items-center space-x-2"
-                    : "text-white flex items-center space-x-2"
-                }
+              <button
+                onClick={handleClick}
+                className="text-white flex items-center space-x-2 hover:text-blue-400"
               >
-                {user && user?.photoURL ? (
+                {user?.photoURL ? (
                   <img
-                    src={user?.photoURL}
+                    src={user.photoURL}
                     alt=""
                     className="w-10 h-10 rounded-full border border-amber-600"
                   />
@@ -96,7 +94,7 @@ const Navbar = () => {
                   <PiUserCircleLight />
                 )}
                 <span>Logout</span>
-              </NavLink>
+              </button>
             ) : (
               <NavLink
                 to="/register"
@@ -166,7 +164,14 @@ const Navbar = () => {
           </li>
           <li>
             {user ? (
-              <button onClick={handleClick}>
+              <button
+                onClick={() => {
+                  handleClick();
+                  setIsOpen(false); 
+                }}
+                className="text-white flex items-center space-x-2 hover:text-blue-400"
+              >
+                <PiUserCircleLight />
                 <span>Sign-out</span>
               </button>
             ) : (
@@ -178,7 +183,6 @@ const Navbar = () => {
                     : "text-white flex items-center space-x-2"
                 }
               >
-                w
                 <PiUserCircleLight />
                 <span>Register</span>
               </NavLink>

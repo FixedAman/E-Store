@@ -54,9 +54,8 @@ const wishlistSlice = createSlice({
   initialState,
   reducers: {
     addToWishlist: (state, action) => {
-      const { id, title, price, images } = action.payload;
-      console.log('image data ' , images);
-      const image = images?.[0];
+      const { id, title, price, image } = action.payload;
+     
 
       const itemsExistIndex = state.items.findIndex((i) => i.id === id);
       if (itemsExistIndex >= 0) {

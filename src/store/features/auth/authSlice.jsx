@@ -70,6 +70,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     await signOut(auth);
     localStorage.removeItem("user");
+    return null;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
   }
@@ -120,6 +121,8 @@ const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+        state.loading = false;
+        state.error = null;
       });
   },
 });

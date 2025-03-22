@@ -15,7 +15,7 @@ const Login = () => {
   useEffect(() => {
     const storedData = localStorage.getItem("user");
     if (storedData) {
-      dispatch(setUser(storedData));
+      dispatch(setUser(JSON.parse (storedData)));
     }
   }, [dispatch]);
   const handleClick = async () => {
