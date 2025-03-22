@@ -21,29 +21,33 @@ const CategoryCard = ({ data }) => {
       return;
     }
     const userId = user.uid;
-    const item = { ...data };
-    const isWishlisted = wishlist.some(
+    const item = {
+      id: data.id,
+      title: data.title,
+      price: data.price,
+      image: data.images, 
+    };
+    const WishlistedAlready = wishlist.some(
       (wishlistitem) => wishlistitem.id === item.id
     );
     let updatedWishlist;
-    if (isWishlisted) {
+    if (WishlistedAlready) {
       updatedWishlist = wishlist.filter(
         (wishlisted) => wishlisted.id !== item.id
       );
     } else {
       updatedWishlist = [...wishlist, item];
     }
-    dispatch(addToWishlist({ item }));
+    dispatch(addToWishlist(item));
     dispatch(saveWishlistFromFireBase({ userId, wishlist: updatedWishlist }));
   };
-
 
   return (
     <div className="bg-white/10 backdrop-blur-md shadow-xl rounded-xl overflow-hidden p-5 flex flex-col items-center border border-gray-200 transition-transform transform    ">
       {/* Product Image */}
       <div className="relative w-full h-56 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
         <img
-          src={data.images?.[0] || "https://via.placeholder.com/150"}
+          src={data.images?.[0] || data.image}
           alt={data.title}
           className="object-cover h-full w-full rounded-lg hover:scale-110 transition-transform duration-300"
         />

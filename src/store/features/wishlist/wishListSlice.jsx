@@ -20,6 +20,8 @@ export const loadWishlistFromFireBase = createAsyncThunk(
       ); /* i pass on the user reference */
       const snapingWishlist = await getDoc(userRef);
       if (snapingWishlist.exists()) {
+        console.log("loading data ", snapingWishlist.data().items);
+
         return snapingWishlist.data().items || [];
       }
       return [];
@@ -33,13 +35,14 @@ export const saveWishlistFromFireBase = createAsyncThunk(
   async ({ userId, wishlist }, thunkApi) => {
     if (!userId) return;
     try {
-      const formattedWishlist = wishlist.map((entry) => entry.item || entry);
+      const formattedWishlist = wishlist.map((entry) => ({
+        id: entry.id || "",
+        title: entry.title || "unknown title",
+        image: entry.image || "asd",
+        price: entry.price || 0,
+      }));
       const userRef = doc(db, "wishlist", userId);
-      await setDoc(
-        userRef,
-        { items: formattedWishlist || [] },
-        { merge: true }
-      );
+      await setDoc(userRef, { items: formattedWishlist }, { merge: true });
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -51,12 +54,15 @@ const wishlistSlice = createSlice({
   initialState,
   reducers: {
     addToWishlist: (state, action) => {
-      const { item } = action.payload;
-      const itemsExistIndex = state.items.findIndex((i) => i.id === item.id);
+      const { id, title, price, images } = action.payload;
+      console.log('image data ' , images);
+      const image = images?.[0];
+
+      const itemsExistIndex = state.items.findIndex((i) => i.id === id);
       if (itemsExistIndex >= 0) {
         state.items.splice(itemsExistIndex, 1);
       } else {
-        state.items.push(action.payload);
+        state.items.push({ id, title, price, image });
       }
     },
     setWishlist: (state, action) => {
