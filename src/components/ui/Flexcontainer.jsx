@@ -16,7 +16,6 @@ const FlexContainer = () => {
   const handleChange = (value) => {
     setSearch(value.toLowerCase());
   };
-
   return (
     <div className="relative w-full h-140 flex flex-col md:flex-row items-center">
       {/* Left Side: Image */}
@@ -64,7 +63,6 @@ const FlexContainer = () => {
       </div>
 
       {/* Right Side: Text and Search */}
-
       <div className="w-full md:w-1/2 h-full">
         <img
           src="/images/flex.png"

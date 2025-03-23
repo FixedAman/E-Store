@@ -27,7 +27,7 @@ const CategoryCard = ({ data }) => {
       price: data.price,
       image: data.images?.[0],
     };
-    console.log("fixing what is wrong ", item);
+   
 
     const WishlistedAlready = wishlist.some(
       (wishlistitem) => wishlistitem.id === item.id

@@ -8,6 +8,7 @@ import Shop from "./pages/Shop.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import CategoryPage from "./components/ui/CategoryPage.jsx";
+import ProductDetail from "./pages/ProductDetail.jsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -40,6 +41,10 @@ const App = () => {
           element: <Register />,
         },
         { path: "/category/:slug", element: <CategoryPage /> },
+        {
+          path: "/product/:id",
+          element: <ProductDetail />,
+        },
       ],
       errorElement: <Error />,
     },

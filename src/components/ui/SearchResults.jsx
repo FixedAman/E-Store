@@ -5,15 +5,19 @@ const SearchResult = ({ result }) => {
 
   return (
     <div className="absolute w-3/4 md:w-1/2 bg-white text-black rounded-lg shadow-lg mt-1 z-10">
-      {result.map((product , index) => (
-        <div
-          key={index}
-          className="p-4  last:border-b-0 hover:bg-blue-50 transition-colors duration-200 flex items-center gap-4"
-        >
-          <div>
-            <h3 className="text-lg font-semibold text-black">{product}</h3>
+      {result.map((product) => (
+        <link to={`/product/${product.id}`}  key={product.id} >
+          <div
+            key={product.id}
+            className="p-4  last:border-b-0 hover:bg-blue-50 transition-colors duration-200 flex items-center gap-4"
+          >
+            <div>
+              <h3 className="text-lg font-semibold text-black">
+                {product.title}
+              </h3>
+            </div>
           </div>
-        </div>
+        </link>
       ))}
     </div>
   );
