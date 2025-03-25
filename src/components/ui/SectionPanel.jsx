@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { Link, Links } from "react-router-dom";
 // mens
 export const SectionPanel = ({ category }) => {
   const {
@@ -69,7 +70,9 @@ export const SectionPanel = ({ category }) => {
             <p className="text-lg font-semibold mt-2">{product.title}</p>
             <h1 className="text-gray-500">{product.brand}</h1>
             <div className="flex justify-end sm:justify-center mt-4">
-              <MdOutlineShoppingBag className=" text-4xl text-zinc-800 hover:bg-black hover:text-white p-2 rounded-lg transition duration-300 cursor-pointer" />
+              <Link to={`/product/${product.id}`}>
+                <MdOutlineShoppingBag className="text-4xl text-zinc-800 hover:bg-black hover:text-white p-2 rounded-lg transition duration-300 cursor-pointer" />
+              </Link>
             </div>
           </div>
         ))}
@@ -137,7 +140,9 @@ export const SectionShoes = ({ category }) => {
               <p className="text-lg font-semibold mt-2">{product.title}</p>
               <h1 className="text-gray-500">{product.brand}</h1>
               <div className="flex justify-end sm:justify-center mt-4">
-                <MdOutlineShoppingBag className=" text-4xl text-zinc-800 hover:bg-black hover:text-white p-2 rounded-lg transition duration-300 cursor-pointer" />
+                <Link to={`/product/${product.id}`}>
+                  <MdOutlineShoppingBag className="text-4xl text-zinc-800 hover:bg-black hover:text-white p-2 rounded-lg transition duration-300 cursor-pointer" />
+                </Link>
               </div>
             </div>
           ))}

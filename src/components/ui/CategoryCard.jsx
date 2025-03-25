@@ -51,7 +51,7 @@ const CategoryCard = ({ data }) => {
         <img
           src={data.images?.[0] || data.image}
           alt={data.title}
-          className="object-cover h-full w-full rounded-lg hover:scale-110 transition-transform duration-300"
+          className="object-contain h-full w-full rounded-lg hover:scale-110 transition-transform duration-300"
         />
         {/* Wishlist Button */}
         <button
@@ -75,10 +75,10 @@ const CategoryCard = ({ data }) => {
 
       {/* Action Buttons */}
       <div className="mt-5 flex gap-4 w-full">
-        <button className="w-1/2 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-lg hover:from-indigo-600 hover:to-blue-500 transition">
-          <FaShoppingCart /> Add to Cart
+        <button className="w-1/2  flex items-center justify-center gap-2 bg-blue-800 rounded-sm text-white hover:bg-blue-600">
+          <FaShoppingCart /> <span className="text-sm"> Cart</span>
         </button>
-        <button className="w-1/2 bg-black text-white py-2 rounded-lg hover:bg-gray-900 transition">
+        <button className="w-24 bg-white text-black py-2 rounded-sm hover:bg-black hover:text-white outline  transition">
           Buy Now
         </button>
       </div>

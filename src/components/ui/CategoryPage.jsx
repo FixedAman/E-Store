@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getData } from "../api/StoreApi";
 import CategoryCard from "./CategoryCard";
 
@@ -30,9 +30,11 @@ const CategoryPage = () => {
           {slug} Products
         </h2>
         <div className="card-container grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-          {product.map((item) => {
-            return <CategoryCard key={item.id} data={item} />;
-          })}
+          {product.map((item) => (
+            <Link to={`/product/${item.id}`} key={item.id}>
+              <CategoryCard key={item.id} data={item} />;
+            </Link>
+          ))}
         </div>
       </div>
     </>
