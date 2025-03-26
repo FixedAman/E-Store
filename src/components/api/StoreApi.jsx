@@ -5,8 +5,6 @@ const api = axios.create({
 
 export const getData = async (category) => {
   const response = await api.get(`/products/category/${category}`);
-  console.log(response.data.products);
-
   return response.data.products;
 };
 export const getSearchData = async (data) => {

@@ -65,9 +65,9 @@ const FlexContainer = () => {
       {/* Right Side: Text and Search */}
       <div className="w-full md:w-1/2 h-full">
         <img
-          src="/images/flex.png"
+          src="https://images.unsplash.com/photo-1538391543564-047a76156421?q=80&w=1665&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Store Background"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain mt-2"
         />
       </div>
     </div>

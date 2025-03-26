@@ -5,12 +5,12 @@ import {
   addToWishlist,
   saveWishlistFromFireBase,
 } from "../../store/features/wishlist/wishListSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
 
 const CategoryCard = ({ data }) => {
   const navigate = useNavigate();
-  const wishlist = useSelector((state) => state.wishlist.items || []);
+   const wishlist = useSelector((state) => state.wishlist.items || []);
   const isWishlisted = wishlist.some((item) => item.id === data.id);
   const user = useSelector((state) => state.auth.user);
 
@@ -27,7 +27,6 @@ const CategoryCard = ({ data }) => {
       price: data.price,
       image: data.images?.[0],
     };
-   
 
     const WishlistedAlready = wishlist.some(
       (wishlistitem) => wishlistitem.id === item.id
@@ -48,11 +47,13 @@ const CategoryCard = ({ data }) => {
     <div className="bg-white/10 backdrop-blur-md shadow-xl rounded-xl overflow-hidden p-5 flex flex-col items-center border border-gray-200 transition-transform transform    ">
       {/* Product Image */}
       <div className="relative w-full h-56 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
-        <img
-          src={data.images?.[0] || data.image}
-          alt={data.title}
-          className="object-contain h-full w-full rounded-lg hover:scale-110 transition-transform duration-300"
-        />
+        <Link to={`/product/${data.id}`}>
+          <img
+            src={data.images?.[0] || data.image}
+            alt={data.title}
+            className="object-contain h-full w-full rounded-lg hover:scale-110 transition-transform duration-300"
+          />
+        </Link>
         {/* Wishlist Button */}
         <button
           className="absolute top-3 right-3 text-xl text-red-500 hover:scale-125 transition-transform duration-200"

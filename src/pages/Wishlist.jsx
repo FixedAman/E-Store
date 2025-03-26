@@ -26,9 +26,7 @@ const Wishlist = () => {
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
           {wishlist.map((item) => (
-            <Link to={`/product/${item.id}`} key={item.id}>
-              <CategoryCard key={item.id} data={item} />
-            </Link>
+            <CategoryCard key={item.id} data={item} />
           ))}
         </div>
       )}

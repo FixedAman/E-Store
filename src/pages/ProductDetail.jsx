@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getData, singleProductDetails } from "../components/api/StoreApi";
 import { AiFillStar } from "react-icons/ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Repeat, ShoppingCart, ShoppingBag } from "lucide-react";
 import CategoryCard from "../components/ui/CategoryCard";
-
+import { useSelector } from "react-redux";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 const ProductDetail = () => {
   const { id } = useParams();
   const [mainImage, setMainImage] = useState(null);
@@ -27,7 +28,12 @@ const ProductDetail = () => {
     queryFn: () => getData(category),
     enabled: !!product?.category,
   });
-
+  // set main image in useEffect
+  useEffect(() => {
+    if (product) {
+      setMainImage(product.thumbnail);
+    }
+  }, [product]);
   if (isError) {
     return (
       <p className="text-center text-red-500 font-semibold mt-10">
@@ -49,6 +55,10 @@ const ProductDetail = () => {
     setMainImage(product.thumbnail);
   }
 
+   
+
+
+
   return (
     <div className="max-w-7xl mx-auto p-6 bg-white rounded-lg mt-8 ">
       {/* Product Details */}
@@ -60,6 +70,7 @@ const ProductDetail = () => {
             alt={product.title}
             className="w-full h-96 object-contain rounded-lg border border-gray-300 shadow-md"
           />
+   
           <div className="flex mt-4 gap-2">
             {product.images?.map((img, index) => (
               <img

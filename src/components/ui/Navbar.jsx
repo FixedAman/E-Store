@@ -167,7 +167,7 @@ const Navbar = () => {
               <button
                 onClick={() => {
                   handleClick();
-                  setIsOpen(false); 
+                  setIsOpen(false);
                 }}
                 className="text-white flex items-center space-x-2 hover:text-blue-400"
               >
