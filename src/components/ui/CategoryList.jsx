@@ -46,7 +46,7 @@ const CategoryList = () => {
       "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     smartphones:
       "https://images.unsplash.com/photo-1640936343842-268f9d87e764?q=80&w=1694&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "sports-accessories": "https://example.com/sports-accessories.jpg",
+
     sunglasses:
       "https://media.istockphoto.com/id/1134837210/photo/sunglasses.webp?a=1&b=1&s=612x612&w=0&k=20&c=RyXp28rOiSwb1AU3XBgemAZbppjzQis_lG7WZM9291w=",
     tablets:
@@ -72,7 +72,6 @@ const CategoryList = () => {
     "sports-accessories":
       "https://plus.unsplash.com/premium_photo-1668767725891-58f5cd788105?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   };
-
 
   return (
     <>

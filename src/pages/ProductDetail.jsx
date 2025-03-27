@@ -5,10 +5,12 @@ import { AiFillStar } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { Repeat, ShoppingCart, ShoppingBag } from "lucide-react";
 import CategoryCard from "../components/ui/CategoryCard";
-import { useSelector } from "react-redux";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../store/features/cart/cartSlice";
+
 const ProductDetail = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const [mainImage, setMainImage] = useState(null);
 
   // Fetch individual product details
@@ -21,19 +23,36 @@ const ProductDetail = () => {
     queryFn: () => singleProductDetails(id),
   });
 
-  // Fetch related products for the sidebar
-  const category = product?.category;
+  // Only fetch sidebar data when product is available
+  const category = product?.category || "";
   const { data: sidebar = [], isLoading: loading } = useQuery({
     queryKey: ["category", category],
     queryFn: () => getData(category),
-    enabled: !!product?.category,
+    enabled: !!category, 
   });
-  // set main image in useEffect
+
+
   useEffect(() => {
     if (product) {
       setMainImage(product.thumbnail);
     }
   }, [product]);
+
+  // Handle adding to cart
+  const handleClick = () => {
+    if (product) {
+      dispatch(
+        addToCart({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          image: product.thumbnail,
+          quantity: 1,
+        })
+      );
+    }
+  };
+
   if (isError) {
     return (
       <p className="text-center text-red-500 font-semibold mt-10">
@@ -50,27 +69,15 @@ const ProductDetail = () => {
     );
   }
 
-  // Set default image when data loads
-  if (!mainImage && product) {
-    setMainImage(product.thumbnail);
-  }
-
-   
-
-
-
   return (
     <div className="max-w-7xl mx-auto p-6 bg-white rounded-lg mt-8 ">
-      {/* Product Details */}
       <div className="flex flex-col md:flex-row gap-8">
-        {/* Left: Image Gallery */}
         <div className="w-full md:w-1/2">
           <img
             src={mainImage}
             alt={product.title}
             className="w-full h-96 object-contain rounded-lg border border-gray-300 shadow-md"
           />
-   
           <div className="flex mt-4 gap-2">
             {product.images?.map((img, index) => (
               <img
@@ -86,18 +93,15 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Right: Product Info */}
         <div className="w-full md:w-1/2">
           <h1 className="text-3xl font-bold text-gray-900">{product.title}</h1>
           <p className="text-lg text-gray-600 mt-2">{product.description}</p>
-
           <div className="flex flex-wrap gap-4 mt-2">
             <p className="text-gray-700">
               <span className="font-semibold">Brand:</span> {product.brand}
             </p>
             <p className="text-gray-700">
-              <span className="font-semibold">Category:</span>{" "}
-              {product.category}
+              <span className="font-semibold">Category:</span> {product.category}
             </p>
           </div>
 
@@ -105,19 +109,12 @@ const ProductDetail = () => {
           <div className="flex items-center mt-2">
             <span className="text-lg font-semibold">{product.rating}</span>
             <AiFillStar className="text-yellow-500 ml-1" />
-            <span className="text-sm text-gray-500 ml-2">
-              ({product.reviews?.length} Reviews)
-            </span>
           </div>
 
           {/* Price */}
           <div className="mt-4 flex items-center gap-3">
-            <p className="text-2xl font-bold text-green-600">
-              ${product.price}
-            </p>
-            <p className="text-sm text-red-500">
-              {product.discountPercentage}% OFF
-            </p>
+            <p className="text-2xl font-bold text-green-600">${product.price}</p>
+            <p className="text-sm text-red-500">{product.discountPercentage}% OFF</p>
           </div>
 
           {/* Stock */}
@@ -132,14 +129,12 @@ const ProductDetail = () => {
             {product.stock > 0 ? "In Stock" : "Out of Stock"}
           </p>
 
-          {/* Shipping */}
-          <p className="mt-2 text-gray-700 flex items-center gap-2">
-            <Repeat /> {product.returnPolicy}
-          </p>
-
           {/* Buttons */}
           <div className="mt-6 flex gap-4">
-            <button className="bg-yellow-500 flex items-center gap-2 text-white px-6 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition">
+            <button
+              className="bg-yellow-500 flex items-center gap-2 text-white px-6 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition"
+              onClick={handleClick}
+            >
               <ShoppingCart size={18} /> Add to Cart
             </button>
             <button
@@ -152,50 +147,7 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      {/* Reviews Section */}
-      <div className="mt-12">
-        <h2 className="text-2xl font-bold">Customer Reviews</h2>
-        {product.reviews?.length > 0 ? (
-          product.reviews.map((review, index) => (
-            <div
-              key={index}
-              className="border-t border-gray-300 pt-4 mt-4 rounded-lg bg-gray-100 p-4"
-            >
-              <div className="flex justify-between items-center">
-                <div className="user_container">
-                  <img
-                    src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"
-                    alt=""
-                    className="w-12 h-12 rounded-full  hidden sm:block"
-                  />
-                  <p className="text-lg font-semibold">{review.reviewerName}</p>
-                </div>
-                <p className="text-sm text-gray-500">
-                  {new Date(review.date).toLocaleString("en-US", {
-                    weekday: "short",
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                </p>
-              </div>
-              <div className="flex items-center text-yellow-500 mt-2">
-                {[...Array(Math.round(review.rating))].map((_, i) => (
-                  <AiFillStar key={i} />
-                ))}
-              </div>
-              <p className="text-gray-700 mt-1">{review.comment}</p>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-500">No reviews yet.</p>
-        )}
-      </div>
-
-      {/* Sidebar (Below Reviews) */}
+      {/* Related Products */}
       <div className="mt-12">
         <h2 className="text-2xl font-bold">Related Products</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">

@@ -67,7 +67,7 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
-              to="/shop"
+              to="/cart"
               className={({ isActive }) =>
                 isActive
                   ? "text-blue-400 flex items-center space-x-2"
@@ -151,7 +151,7 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
-              to="/shop"
+              to="/cart"
               className={({ isActive }) =>
                 isActive
                   ? "text-blue-400 flex items-center space-x-2"
@@ -159,7 +159,7 @@ const Navbar = () => {
               }
             >
               <PiStorefrontLight />
-              <span>Shop</span>
+              <span>cart</span>
             </NavLink>
           </li>
           <li>
