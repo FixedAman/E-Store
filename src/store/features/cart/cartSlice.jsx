@@ -1,9 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../../firebase/firebase";
 const initialState = {
   cartItems: [],
+  loading: false,
+  error: false,
 };
 
-
+export const saveCartFromFireBase = createAsyncThunk(
+  "cart/savecart",
+  async ({ userId, cart }, thunkApi) => {
+    if (!userId) return thunkApi.rejectWithValue("user authenticated");
+    try {
+      const userRef = doc(db, "cart", userId);
+      await setDoc(userRef, { list: cart }, { merge: true });
+      return "Cart saved  successfully ";
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -32,6 +48,11 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.cartItems = [];
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(saveCartFromFireBase.fulfilled, (state, action) => {
+      state.loading = false;
+    });
   },
 });
 export const { addToCart, removeItem, updateQuantity, clearCart } =

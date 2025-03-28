@@ -55,7 +55,6 @@ const wishlistSlice = createSlice({
   reducers: {
     addToWishlist: (state, action) => {
       const { id, title, price, image } = action.payload;
-     
 
       const itemsExistIndex = state.items.findIndex((i) => i.id === id);
       if (itemsExistIndex >= 0) {
@@ -80,7 +79,7 @@ const wishlistSlice = createSlice({
         state.loading = false;
         state.items = action.payload;
       })
-      .addCase(saveWishlistFromFireBase.fulfilled, (state, action) => {
+      .addCase(saveWishlistFromFireBase.fulfilled, (state) => {
         state.loading = false;
       });
   },

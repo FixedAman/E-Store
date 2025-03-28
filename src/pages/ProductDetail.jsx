@@ -5,14 +5,19 @@ import { AiFillStar } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { Repeat, ShoppingCart, ShoppingBag } from "lucide-react";
 import CategoryCard from "../components/ui/CategoryCard";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../store/features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  saveCartFromFireBase,
+} from "../store/features/cart/cartSlice";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [mainImage, setMainImage] = useState(null);
-
+  const user = useSelector((state) => state.auth.user);
+  const cart = useSelector((state) => state.cart.cartItems);
+  console.log(cart);
   // Fetch individual product details
   const {
     data: product,
@@ -28,9 +33,8 @@ const ProductDetail = () => {
   const { data: sidebar = [], isLoading: loading } = useQuery({
     queryKey: ["category", category],
     queryFn: () => getData(category),
-    enabled: !!category, 
+    enabled: !!category,
   });
-
 
   useEffect(() => {
     if (product) {
@@ -40,6 +44,9 @@ const ProductDetail = () => {
 
   // Handle adding to cart
   const handleClick = () => {
+    const userId = user?.uid;
+    if (!userId) return;
+
     if (product) {
       dispatch(
         addToCart({
@@ -52,6 +59,11 @@ const ProductDetail = () => {
       );
     }
   };
+  useEffect(() => {
+    if (user?.uid) {
+      dispatch(saveCartFromFireBase({ userId: user?.uid, cart }));
+    }
+  },[cart , dispatch , user]);
 
   if (isError) {
     return (
@@ -101,7 +113,8 @@ const ProductDetail = () => {
               <span className="font-semibold">Brand:</span> {product.brand}
             </p>
             <p className="text-gray-700">
-              <span className="font-semibold">Category:</span> {product.category}
+              <span className="font-semibold">Category:</span>{" "}
+              {product.category}
             </p>
           </div>
 
@@ -113,8 +126,12 @@ const ProductDetail = () => {
 
           {/* Price */}
           <div className="mt-4 flex items-center gap-3">
-            <p className="text-2xl font-bold text-green-600">${product.price}</p>
-            <p className="text-sm text-red-500">{product.discountPercentage}% OFF</p>
+            <p className="text-2xl font-bold text-green-600">
+              ${product.price}
+            </p>
+            <p className="text-sm text-red-500">
+              {product.discountPercentage}% OFF
+            </p>
           </div>
 
           {/* Stock */}
