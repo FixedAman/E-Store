@@ -63,7 +63,7 @@ const ProductDetail = () => {
     if (user?.uid) {
       dispatch(saveCartFromFireBase({ userId: user?.uid, cart }));
     }
-  },[cart , dispatch , user]);
+  }, [cart, dispatch, user]);
 
   if (isError) {
     return (

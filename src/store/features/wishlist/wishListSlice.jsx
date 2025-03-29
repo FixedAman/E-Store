@@ -17,7 +17,7 @@ export const loadWishlistFromFireBase = createAsyncThunk(
         db,
         "wishlist",
         userId
-      ); /* i pass on the user reference */
+      ); /*  pass on the user reference */
       const snapingWishlist = await getDoc(userRef);
       if (snapingWishlist.exists()) {
         console.log("loading data ", snapingWishlist.data().items);
