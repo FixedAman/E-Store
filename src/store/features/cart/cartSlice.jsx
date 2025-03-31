@@ -38,6 +38,23 @@ export const saveCartFromFireBase = createAsyncThunk(
     }
   }
 );
+export const clearCartItem = createAsyncThunk(
+  "cart/clearItem",
+  async (userId, thunkApi) => {
+    if (!userId) return thunkApi.rejectWithValue("user not value");
+    try {
+      const userRef = doc(db, "cart", userId);
+      await setDoc(userRef, { list: [] }, { merge: true });
+      return "cart cleared successfully";
+    } catch (error) {
+      thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+export const incrementItemFromFirebase = createAsyncThunk(
+  "cart/increament",
+  async({ userId })
+);
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -51,25 +68,12 @@ const cartSlice = createSlice({
         state.cartItems.push({ ...item, quantity: 1 });
       }
     },
-    decreamentItem: (state, action) => {
-      const itemId = action.payload;
-      const item = state.cartItems.find((i) => i.id === itemId);
-      if (item.quantity > 1) {
-        item.quantity = item.quantity - 1;
-      }
-    },
     removeItem: (state, action) => {
       state.cartItems = state.cartItems.filter(
         (item) => item.id !== action.payload
       );
     },
-    updateQuantity: (state, action) => {
-      const { id, quantity } = action.payload;
-      const item = state.cartItems.find((i) => i.id === id);
-      if (item && quantity > 0) {
-        item.quantity = quantity;
-      }
-    },
+
     clearCart: (state) => {
       state.cartItems = [];
     },
@@ -89,9 +93,26 @@ const cartSlice = createSlice({
       })
       .addCase(loadCartFromFireBase.pending, (state) => {
         state.loading = true;
+      })
+      .addCase(clearCartItem.fulfilled, (state) => {
+        state.cartItems = [];
+        state.loading = false;
+      })
+      .addCase(clearCartItem.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(clearCartItem.pending, (state) => {
+        state.loading = true;
       });
   },
 });
-export const { addToCart, removeItem, updateQuantity, clearCart } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeItem,
+  updateQuantity,
+  clearCart,
+  decreamentItem,
+  incrementItem,
+} = cartSlice.actions;
 export default cartSlice.reducer;
