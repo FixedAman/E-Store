@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart, FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,13 +7,14 @@ import {
 } from "../../store/features/wishlist/wishListSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
+import { saveCartFromFireBase } from "../../store/features/cart/cartSlice";
 
 const CategoryCard = ({ data }) => {
   const navigate = useNavigate();
-   const wishlist = useSelector((state) => state.wishlist.items || []);
+  const wishlist = useSelector((state) => state.wishlist.items || []);
   const isWishlisted = wishlist.some((item) => item.id === data.id);
   const user = useSelector((state) => state.auth.user);
-
+  const cart = useSelector((state) => state.cart.cartItems);
   const dispatch = useDispatch();
   const handleClick = () => {
     if (!user) {
@@ -41,6 +42,23 @@ const CategoryCard = ({ data }) => {
     }
     dispatch(addToWishlist(item));
     dispatch(saveWishlistFromFireBase({ userId, wishlist: updatedWishlist }));
+  };
+  const handleCartClick = () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    const userId = user.uid;
+    const items = {
+      id: data.id,
+      title: data.title,
+      price: data.price,
+      image: data.thumbnail,
+      quantity: 1,
+    };
+
+    dispatch(addToWishlist(items));
+    dispatch(saveCartFromFireBase({ userId, cart: [...cart, items] }));
   };
 
   return (
@@ -76,7 +94,10 @@ const CategoryCard = ({ data }) => {
 
       {/* Action Buttons */}
       <div className="mt-5 flex gap-4 w-full">
-        <button className="w-1/2  flex items-center justify-center gap-2 bg-blue-800 rounded-sm text-white hover:bg-blue-600">
+        <button
+          className="w-1/2  flex items-center justify-center gap-2 bg-blue-800 rounded-sm text-white hover:bg-blue-600"
+          onClick={handleCartClick}
+        >
           <FaShoppingCart /> <span className="text-sm"> Cart</span>
         </button>
         <button className="w-24 bg-white text-black py-2 rounded-sm hover:bg-black hover:text-white outline  transition">

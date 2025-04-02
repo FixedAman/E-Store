@@ -46,7 +46,7 @@ const ProductDetail = () => {
   const handleClick = () => {
     const userId = user?.uid;
     if (!userId) return;
-
+                                          
     if (product) {
       dispatch(
         addToCart({
