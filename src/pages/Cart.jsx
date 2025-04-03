@@ -11,10 +11,12 @@ const Cart = () => {
   const cartItems = useSelector((state) => state.cart.cartItems || []);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-
+  const totalPrice = cartItems.reduce(
+    (prevItem, nextItem) => prevItem + Number(nextItem.price),
+    0
+  );
   useEffect(() => {
     if (user) {
-      
       dispatch(loadCartFromFireBase(user.uid));
     }
   }, [user, dispatch]);
@@ -79,13 +81,18 @@ const Cart = () => {
             ))}
           </ul>
 
-          <div className="mt-6 text-center">
+          <div className="mt-6 text-start">
             <button
               onClick={handleClear}
               className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
             >
               Clear Cart
             </button>
+          </div>
+          <div className="checkout-container flex justify-end">
+            <p className="text-3xl">
+              Total : <span >${totalPrice.toFixed(2)}</span>
+            </p>
           </div>
         </div>
       ) : (

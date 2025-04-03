@@ -7,7 +7,10 @@ import {
 } from "../../store/features/wishlist/wishListSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
-import { saveCartFromFireBase } from "../../store/features/cart/cartSlice";
+import {
+  addToCart,
+  saveCartFromFireBase,
+} from "../../store/features/cart/cartSlice";
 
 const CategoryCard = ({ data }) => {
   const navigate = useNavigate();
@@ -15,6 +18,7 @@ const CategoryCard = ({ data }) => {
   const isWishlisted = wishlist.some((item) => item.id === data.id);
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.cartItems);
+  
   const dispatch = useDispatch();
   const handleClick = () => {
     if (!user) {
@@ -49,18 +53,23 @@ const CategoryCard = ({ data }) => {
       return;
     }
     const userId = user.uid;
-    const items = {
-      id: data.id,
-      title: data.title,
-      price: data.price,
-      image: data.thumbnail,
-      quantity: 1,
-    };
-
-    dispatch(addToWishlist(items));
-    dispatch(saveCartFromFireBase({ userId, cart: [...cart, items] }));
+    if (userId) {
+      dispatch(
+        addToCart({
+          id: data.id,
+          title: data.title,
+          price: data.price,
+          image: data.images?.[0],
+          quantity: 1,
+        })
+      );
+    }
   };
-
+  useEffect(() => {
+    if (user?.uid) {
+      dispatch(saveCartFromFireBase({ userId: user.uid, cart }));
+    }
+  }, [dispatch, user, cart]);
   return (
     <div className="bg-white/10 backdrop-blur-md shadow-xl rounded-xl overflow-hidden p-5 flex flex-col items-center border border-gray-200 transition-transform transform    ">
       {/* Product Image */}
