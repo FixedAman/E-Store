@@ -10,6 +10,7 @@ import Register from "./pages/Register.jsx";
 import CategoryPage from "./components/ui/CategoryPage.jsx";
 import ProductDetail from "./pages/ProductDetail.jsx";
 import Cart from "./pages/Cart.jsx";
+import Checkout from "./pages/Checkout.jsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -45,6 +46,10 @@ const App = () => {
         {
           path: "/product/:id",
           element: <ProductDetail />,
+        },
+        {
+          path: "/checkout",
+          element: <Checkout />,
         },
       ],
       errorElement: <Error />,

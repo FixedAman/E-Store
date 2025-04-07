@@ -6,8 +6,10 @@ import {
   incrementItemFromFirebase,
   loadCartFromFireBase,
 } from "../store/features/cart/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems || []);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
@@ -91,8 +93,14 @@ const Cart = () => {
           </div>
           <div className="checkout-container flex justify-end">
             <p className="text-3xl">
-              Total : <span >${totalPrice.toFixed(2)}</span>
+              Total : <span>${totalPrice.toFixed(2)}</span>
             </p>
+            <button
+              className="bg-green-600 text-white px-6 py-2 ml-2 mb-2 rounded-md hover:bg-green-700 transition "
+              onClick={() => navigate("/checkout")}
+            >
+              proceed
+            </button>
           </div>
         </div>
       ) : (
