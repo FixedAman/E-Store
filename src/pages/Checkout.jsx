@@ -48,7 +48,7 @@ const Checkout = () => {
     const options = {
       key: "rzp_test_Xtxv1u9Xp0Fp3C",
       amount: totalprice,
-      currency: "usd",
+      currency: "INR",
       name: "e-store",
       description: "Order payment",
       handler: async function (response) {
@@ -96,6 +96,7 @@ const Checkout = () => {
       />
       <div className="container flex">
         <input
+          name="city"
           type="text"
           placeholder="city"
           value={formData.city}
@@ -123,7 +124,7 @@ const Checkout = () => {
       />
       <input
         type="number"
-        name="pincode"
+        name="pinCode"
         value={formData.pinCode}
         placeholder="pincode"
         className="w-full border px-4 py-2 mb-2 rounded"
